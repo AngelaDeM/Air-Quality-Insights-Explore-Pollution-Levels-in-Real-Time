@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Air Quality Insights</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Bootstrap Icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic"
+          rel="stylesheet" type="text/css" />
+    <!--<link rel="stylesheet" href="assets/css/query.css" />
+    SimpleLightbox plugin CSS-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)
+    <link href="assets/css/styles.css" rel="stylesheet" />-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+
+<body>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="#page-top">Air Quality Insights</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                <li class="nav-item"><a class="nav-link" href=index>Ritorna alla homepage</a></li>
+                <li class="nav-item"><a class="nav-link" href="#dataset">Visualizza il dataset</a></li>
+                <li class="nav-item"><a class="nav-link" href="#dettagli">Spiegazione termini</a></li>
+                <li class="nav-item"><a class="nav-link" href="#ricerca">Ricerca</a></li>
+                <li class="nav-item"><a class="nav-link" href="#inserisci">Inserisci</a></li>
+                <li class="nav-item"><a class="nav-link" href="#modifica">Modifica</a></li>
+                <li class="nav-item"><a class="nav-link" href="#cancella">Cancella</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-section bg-primary" id="about">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="text-white mt-0">Comprendi l'inquinamento per il benessere collettivo!</h2>
+                <hr class="divider divider-light" />
+                <h3 class="text-white mt-0">Query al dataset World Air Quality Index</h3>
+                <img src="/assets/images/immagine1.jpg" class="img-fluid" style="display: block; margin: 0 auto; width: 550px;">
+                <p class="text-white-75"></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="dataset"></section>
+<div class="container">
+    <div class="table-scroll">
+        <table id="data-table" class="table table-striped">
+            <br>
+            <caption>Dati sull'inquinamento dell'aria</caption>
+            <thead>
+            <tr>
+                <th onclick="sortTable(0)">Paese</th>
+                <th onclick="sortTable(1)">Città</th>
+                <th onclick="sortTable(2)">Valore AQI</th>
+                <th onclick="sortTable(3)">Categoria AQI</th>
+                <th onclick="sortTable(4)">Valore AQI CO</th>
+                <th onclick="sortTable(5)">Categoria AQI CO</th>
+                <th onclick="sortTable(6)">Valore AQI Ozono</th>
+                <th onclick="sortTable(7)">Categoria AQI Ozono</th>
+                <th onclick="sortTable(8)">Valore AQI NO2</th>
+                <th onclick="sortTable(9)">Categoria AQI NO2</th>
+                <th onclick="sortTable(10)">Valore AQI PM2.5</th>
+                <th onclick="sortTable(11)">Categoria AQI PM2.5</th>
+                <th onclick="sortTable(12)">lat</th>
+                <th onclick="sortTable(13)">lng</th>
+            </tr>
+            </thead>
+            <tbody id="data-body">
+
+            {% for i in range(10) %}
+            {% set row = list_air[i] %}
+            <tr>
+                <td>{{ row.Country}}</td>
+                <td>{{ row.City}}</td>
+                <td>{{ row.aqi_value }}</td>
+                <td>{{ row.aqi_category }}</td>
+                <td>{{ row.co_aqi_value }}</td>
+                <td>{{ row.co_aqi_category }}</td>
+                <td>{{ row.ozone_aqi_value }}</td>
+                <td>{{ row.ozone_aqi_category }}</td>
+                <td>{{ row.no2_aqi_value }}</td>
+                <td>{{ row.no2_aqi_category }}</td>
+                <td>{{ row.pm25_aqi_value }}</td>
+                <td>{{ row.pm25_aqi_category }}</td>
+                <td>{{ row.lat }}</td>
+                <td>{{ row.lng }}</td>
+            </tr>
+
+            {% endfor %}
+            </tbody></table>
+    </div>
+</div>
+
+<!-- Elemento per la paginazione
+<div id="pagination"></div>
+
+Script per caricare jQuery e il file JavaScript per la paginazione
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/assets/js/pagination.js"></script>-->
+
+
+<section class="page-section bg-primary" id="dettagli">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="text-white mt-0">Spiegazione dei termini comuni dell'Indice di Qualità dell'Aria (AQI)</h2>
+                <hr class="divider divider-light" />
+                <p class="text-white-75 mb-4">
+                    <strong>PM2.5:</strong> Sigla che indica la concentrazione di particelle sottili nell'aria, con un diametro di 2,5 micrometri o meno. Queste particelle possono essere dannose per la salute umana se inalate in quantità elevate.
+                </p>
+                <p class="text-white-75 mb-4">
+                    <strong> O3 (Ozono)</strong> Sigla che rappresenta il livello di ozono presente nell'atmosfera. L'ozono è un gas che si forma attraverso una reazione chimica tra la luce solare e gli inquinanti. Elevati livelli di ozono possono avere effetti negativi sulla salute, soprattutto per coloro che soffrono di problemi respiratori.
+                </p>
+                <p class="text-white-75 mb-4">
+                    <strong>CO (Monossido di Carbonio):</strong> Sigla che indica la concentrazione di monossido di carbonio nell'aria. Il monossido di carbonio è un gas incolore e inodore che si forma dalla combustione incompleta dei combustibili fossili. Elevati livelli di CO possono essere pericolosi per gli esseri umani, causando sintomi come mal di testa, vertigini e nausea.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<br>
+<!--Ricerca paese-->
+<section id="ricerca">
+    <div class="myDiv"
+         style="background-image: url('/assets/images/wallpaper.jpg'); background-size: cover; display: flex; justify-content: center; align-items: center;">
+        <form method="POST" action="/test_query/find_query" style="display: flex; flex-direction: column; align-items: center;">
+            <h1 class="project-category custom-title">Ricerca paese</h1>
+            <br>
+            <div class="container">
+                <div style="display: flex; align-items: center;">
+
+                    <label for="find_country" style="width: 100px; text-align: right; margin-right: 10px;">Paese:</label>
+                    <input type="text" name="find-country" id="find_country" value="" placeholder="Nome paese"/>
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="find_city" style="width: 100px; text-align: right; margin-right: 10px;">Città:</label>
+                    <input type="text" name="find-city" id="find_city" value="" placeholder="Nome città"/>
+                    <!--<select name="find-city" id="find_city" >
+                        <option value="">- Seleziona -</option>
+                        <option value="Santa Cruz">Santa Cruz</option>
+                        <option value="San Fernando">San Fernando</option>
+                        <option value="Santa Ana">Santa Ana</option>
+                        <option value="Springfield">Springfield</option>
+                    </select>-->
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="find_aqi_from" style="width: 100px; text-align: right; margin-right: 10px;">AQI da:</label>
+                    <input type="text" name="find-aqi-min" id="find_aqi_from" value="" placeholder="Valore AQI da"  />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="find_aqi_to" style="width: 100px; text-align: right; margin-right: 10px;">AQI a:</label>
+                    <input type="text" name="find-aqi-max" id="find_aqi_to" value="" placeholder="Valore AQI a"  />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="find_aqi_category" style="width: 100px; text-align: right; margin-right: 10px;">Categoria
+                        AQI:</label>
+                    <input type="text" name="find-aqi_category" id="find_aqi_category" value="" placeholder="Categoria qualità"
+                    />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="find_aqi_co_from" style="width: 100px; text-align: right; margin-right: 10px;">Valore AQI per
+                        CO da:</label>
+                    <input type="text" name="find-co-min" id="find_aqi_co_from" value="" placeholder="Valore AQI per CO da"
+                    />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="find_aqi_co_to" style="width: 100px; text-align: right; margin-right: 10px;">Valore AQI per
+                        CO a:</label>
+                    <input type="text" name="find-co-max" id="find_aqi_co_to" value="" placeholder="Valore AQI per CO a"
+                    />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="find_aqi_co_category" style="width: 100px; text-align: right; margin-right: 10px;">Categoria AQI per
+                        CO:</label>
+                    <input type="text" name="find-aqi-co_category" id="find_aqi_co_category" value="" placeholder="Categoria AQI per CO"
+                    />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="find_lat"
+                           style="width: 100px; text-align: right; margin-right: 10px;">Latitudine:</label>
+                    <input type="text" name="find-lat" id="find_lat" value="" placeholder="Inserisci la latitudine"
+                    />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="find_lng"
+                           style="width: 100px; text-align: right; margin-right: 10px;">Longitudine:</label>
+                    <input type="text" name="find-lng" id="find_lng" value="" placeholder="Inserisci la longitudine"/>
+                </div>
+                <br>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <button type="submit" class="btn btn-primary">Ricerca</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <br>
+</section>
+
+<!--Inserimento-->
+<section id="inserisci">
+    <div class="myDiv"
+         style="background-image: url('/assets/images/wallpaper.jpg'); background-size: cover; display: flex; justify-content: center; align-items: center;">
+        <form method="POST" action="/test_query/insert_country">
+            <h1 class="project-category custom-title">Inserisci nazione</h1>
+            <br>
+            <div class="container">
+                <div style="display: flex; align-items: center;">
+                    <label for="new_country" style="width: 100px; text-align: right; margin-right: 10px;">Paese:</label>
+                    <input type="text" name="ins-country" id="new_country" value="" placeholder="Nome paese"
+                           required />
+                </div>
+                <br>
+
+                <div style="display: flex; align-items: center;">
+                    <label for="new_city" style="width: 100px; text-align: right; margin-right: 10px;">Città:</label>
+                    <input type="text" name="ins-city" id="new_city" required value="" placeholder="Nome città">
+                    <!--<select name="ins-city" id="new_city" required>
+                        <option value="">- Seleziona -</option>
+                        <option value="Santa Cruz">Santa Cruz</option>
+                        <option value="San Fernando">San Fernando</option>
+                        <option value="Santa Ana">Santa Ana</option>
+                        <option value="Springfield">Springfield</option>
+                    </select>
+                    -->
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="new_aqi_value" style="width: 100px; text-align: right; margin-right: 10px;">Valore AQI:</label>
+                    <input type="text" name="ins-aqi-value" id="new_aqi_value" value="" placeholder="Valore AQI"
+                           required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="new_aqi_category" style="width: 100px; text-align: right; margin-right: 10px;">Categoria AQI:</label>
+                    <input type="text" name="ins-aqi-category" id="new_aqi_category" value="" placeholder="Categoria qualità" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="new_co_aqi_value" style="width: 100px; text-align: right; margin-right: 10px;">Valore AQI per CO:</label>
+                    <input type="text" name="ins-co-value" id="new_co_aqi_value" value="" placeholder="CO AQUI"
+                           required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="new_co_aqi_category" style="width: 100px; text-align: right; margin-right: 10px;">Categoria AQI per CO:</label>
+                    <input type="text" name="ins-co-category" id="new_co_aqi_category" value=""
+                           placeholder="Inserisci la categoria" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="new_ozone_aqi_value" style="width: 100px; text-align: right; margin-right: 10px;">Valore AQI per Ozono:</label>
+                    <input type="text" name="ins-ozone-value" id="new_ozone_aqi_value" value=""
+                           placeholder="valore O3 AQI " required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="new_ozone_aqi_category"
+                           style="width: 100px; text-align: right; margin-right: 10px;">Categoria AQI Ozono:</label>
+                    <input type="text" name="ins-ozone-category" id="new_ozone_aqi_category" value=""
+                           placeholder="Categoria per ozono" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="new_no2_aqi_value" style="width: 100px; text-align: right; margin-right: 10px;">Valore AQI NO2:</label>
+                    <input type="text" name="ins-no2-value" id="new_no2_aqi_value" value=""
+                           placeholder="Valore NO2 AQI " required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="new_no2_aqi_category" style="width: 100px; text-align: right; margin-right: 10px;">Categoria AQI NO2:</label>
+                    <input type="text" name="ins-no2-category" id="new_no2_aqi_category" value=""
+                           placeholder="Categoria NO2 AQI " required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="new_pm25_aqi_value" style="width: 100px; text-align: right; margin-right: 10px;">Valore AQI PM2.5:</label>
+                    <input type="text" name="ins-pm25-value" id="new_pm25_aqi_value" value=""
+                           placeholder="Valore PM2.5 AQI " required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="new_pm25_aqi_category"
+                           style="width: 100px; text-align: right; margin-right: 10px;">Categoria AQI PM2.5:</label>
+                    <input type="text" name="ins-pm25-category" id="new_pm25_aqi_category" value=""
+                           placeholder="Categoria PM2.5 AQI " required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="new_lat"
+                           style="width: 100px; text-align: right; margin-right: 10px;">Latitudine:</label>
+                    <input type="text" name="ins-lat" id="new_lat" value="" placeholder="Inserisci la latitudine"
+                           required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="new_lng"
+                           style="width: 100px; text-align: right; margin-right: 10px;">Longitudine:</label>
+                    <input type="text" name="ins-lng" id="new_lng" value="" placeholder="Inserisci la longitudine" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <button type="submit" class="btn btn-primary">Inserisci</button>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+    <br>
+</section>
+
+<!-- Modifica di una nazione -->
+<section id="modifica">
+    <div class="myDiv"
+         style="background-image: url('/assets/images/wallpaper.jpg'); background-size: cover; display: flex; justify-content: center; align-items: center;">
+        <form method="POST" action="/test_query/update_country">
+            <h1 class="project-category custom-title"> Modifica nazione</h1>
+            <br>
+            <div class="container">
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_country" style="width: 100px; text-align: right; margin-right: 10px;">Paese:</label>
+                    <input type="text" name="upd-country" id="modify_country" value="" placeholder="Paese da modificare"/>
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_country2" style="width: 100px; text-align: right; margin-right: 10px;">Nuovo nome:</label>
+                    <input type="text" name="upd-country2" id="modify_country2" value="" placeholder="Nuovo nome paese">
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_city" style="width: 100px; text-align: right; margin-right: 10px;">Città:</label>
+                    <input type="text" name="upd-city" id="modify_city" required value="" placeholder="Nome città">
+                        <!--
+                        <option value="">- Seleziona -</option>
+                        <option value="Santa Cruz">Santa Cruz</option>
+                        <option value="San Fernando">San Fernando</option>
+                        <option value="Santa Ana">Santa Ana</option>
+                        <option value="Springfield">Springfield</option>-->
+                    </input>
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_aqi_value" style="width: 100px; text-align: right; margin-right: 10px;">AQI
+                        Value:</label>
+                    <input type="text" name="upd-aqi-value" id="modify_aqi_value" value="" placeholder="valore AQI" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_aqi_category" style="width: 100px; text-align: right; margin-right: 10px;">AQI
+                        Category:</label>
+                    <input type="text" name="upd-aqi-category" id="modify_aqi_category" value=""
+                           placeholder="Categoria qualità" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_co_aqi_value" style="width: 100px; text-align: right; margin-right: 10px;">CO AQI
+                        Value:</label>
+                    <input type="text" name="upd-co-value" id="modify_co_aqi_value" value="" placeholder="CO AQUI" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_co_aqi_category" style="width: 100px; text-align: right; margin-right: 10px;">CO AQI
+                        Category:</label>
+                    <input type="text" name="upd-co-category" id="modify_co_aqi_category" value=""
+                           placeholder="Inserisci la categoria" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_o3_aqi_value" style="width: 100px; text-align: right; margin-right: 10px;">Valore AQI per Ozono:</label>
+                    <input type="text" name="upd-ozone-value" id="modify_o3_aqi_value" value="" placeholder="Valore O3 AQI" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_o3_aqi_category" style="width: 100px; text-align: right; margin-right: 10px;">Categoria per Ozono:</label>
+                    <input type="text" name="upd-ozone-category" id="modify_o3_aqi_category" value=""
+                           placeholder="Categoria per Ozono" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_upd-no2_value" style="width: 100px; text-align: right; margin-right: 10px;">Valore AQI NO2:</label>
+                    <input type="text" name="upd-no2-value" id="modify_upd-no2_value" value="" placeholder="Valore NO2 AQI" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_upd-no2_category" style="width: 100px; text-align: right; margin-right: 10px;">VCategoria AQI NO2:</label>
+                    <input type="text" name="upd-no2-category" id="modify_upd-no2_category" value="" placeholder="Categoria NO2 AQI" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_pm2.5_aqi_value" style="width: 100px; text-align: right; margin-right: 10px;">Valore AQI PM2.5:</label>
+                    <input type="text" name="upd-pm25-value" id="modify_pm2.5_aqi_value" value="" placeholder="Valore PM2.5 AQI" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_pm2.5_aqi__category" style="width: 100px; text-align: right; margin-right: 10px;">Categoria AQI PM2.5:</label>
+                    <input type="text" name="upd-pm25-category" id="modify_pm2.5_aqi__category" value=""
+                           placeholder="Categoria PM2.5 AQI" required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_lat"
+                           style="width: 100px; text-align: right; margin-right: 10px;">Latitudine:</label>
+                    <input type="text" name="upd-lat" id="modify_lat" value="" placeholder="Inserisci la latitudine"
+                           required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center;">
+                    <label for="modify_lng"
+                           style="width: 100px; text-align: right; margin-right: 10px;">Longitudine:</label>
+                    <input type="text" name="upd-lng" id="modify_lng" value="" placeholder="Inserisci la longitudine"
+                           required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <button type="submit" class="btn btn-primary ">Aggiorna</button>
+                    <script>
+    function modify_alert() {
+        var result = ["{{response}}"];
+        alert(result);
+        return true;
+    }
+</script>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <br>
+</section>
+</section>
+
+<!-- Cancellazione di una nazione -->
+<section id="cancella">
+    <div class="myDiv"
+         style="background-image: url('/assets/images/wallpaper.jpg'); background-size: cover; display: flex; justify-content: center; align-items: center;">
+        <form method="POST" action="/test_query/delete_country">
+            <h1 class="project-category custom-title"> Cancella nazione</h1>
+            <br>
+            <div class="container">
+                <div>
+                    <label for="delete_country" style="display: inline-block; width: 100px; text-align: right;">Paese:</label>
+                    <input type="text" name="demo-country-id" id="delete_country" value="" placeholder="Nome paese"
+                           required />
+                </div>
+                <br>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <button type="submit" class="btn btn-primary">Cancella</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <br>
+    </div>
+    </div>
+    </div>
+</section>
+</section>
+<!-- Footer-->
+<footer class="bg-light py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="container px-4 px-lg-5">
+            <div class="small text-center text-muted">Progetto di Basi Dati II realizzato da Angela De Martino 0522501589- Dipartimento di Informatica dell'Università degli Studi di Salerno, via Giovanni Paolo II, Fisciano. <br> © 2023 <br> Tutti i diritti sono riservati.</div>
+        </div>
+    </div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- SimpleLightbox plugin JS-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
+<!-- Core theme JS-->
+<script src="/assets/js/scripts.js"></script>
+<script src="/assets/js/order_table.js"></script>
+<script src="/assets/js/jquery.scrollex.min.js"></script>
+<script src="/assets/js/jquery.scrolly.min.js"></script>
+<script src="/assets/js/breakpoints.min.js"></script>
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/browser.min.js"></script>
+<script src="/assets/js/utils.js"></script>
+<script src="/assets/js/main.js"></script>
+
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<!-- * *                               SB Forms JS                               * *-->
+<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+</body>
+
+</html>
